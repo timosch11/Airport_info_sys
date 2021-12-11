@@ -1,0 +1,13 @@
+FROM openjdk:15-alpine
+
+# deploy app
+ADD airport.jar /usr/src/airport.jar
+
+# expose 8080 (app) and 8081 (debug)
+EXPOSE 8080/tcp
+EXPOSE 8081/tcp
+
+# ensure application is started and debugger can be attached
+CMD ["java", "-Xdebug", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081", "-jar", "/usr/src/airport.jar"]
+# if no debugger is required
+# CMD ["java", "-jar", "/usr/src/airport.jar"]
